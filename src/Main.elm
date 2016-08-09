@@ -11,7 +11,12 @@ import Html.Events exposing (..)
 
 main : Program Never
 main =
-    App.beginnerProgram { model = model, view = view, update = update }
+    App.program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
 
 
 
@@ -27,6 +32,11 @@ model =
     1
 
 
+init : ( Model, Cmd Action )
+init =
+    ( model, Cmd.none )
+
+
 
 -- UPDATE
 
@@ -36,11 +46,20 @@ type Action
     | Save
 
 
-update : Action -> Model -> Model
+update : Action -> Model -> (Model, Cmd Action)
 update action model =
     case action of
         _ ->
-            model
+            (model, Cmd.none)
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Action
+subscriptions model =
+    Sub.none
 
 
 
