@@ -1,76 +1,66 @@
-module Main exposing (..)
-
-import Html exposing (..)
-import Html.App as App
-import Mouse
-import Keyboard
-
-
--- APP
-
-
-main : Program Never
-main =
-    App.program
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = subscriptions
-        }
-
+import Html exposing (Html, div, text)
+import Html.App
 
 
 -- MODEL
 
 
 type alias Model =
-    Int
+    String
 
 
-model : Model
-model =
-    0
-
-
-init : ( Model, Cmd Action )
+init : ( Model, Cmd Msg )
 init =
-    ( model, Cmd.none )
+    ( "Hello", Cmd.none )
 
 
 
--- UPDATE
+-- MESSAGES
 
 
-type Action
-    = MouseAction Mouse.Position
-    | KeyboardAction Keyboard.KeyCode
-
-
-update : Action -> Model -> (Model, Cmd Action)
-update action model =
-    case action of
-        MouseAction position ->
-            (model + 1, Cmd.none)
-        KeyboardAction code ->
-            (model + 1, Cmd.none)
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Action
-subscriptions model =
-    Sub.batch
-        [ Mouse.clicks MouseAction
-        , Keyboard.presses KeyboardAction ]
+type Msg
+    = NoOp
 
 
 
 -- VIEW
 
 
-view : Model -> Html Action
+view : Model -> Html Msg
 view model =
     div []
-        [ div [] [ text (toString model) ]
-        ]
+        [ text model ]
+
+
+
+-- UPDATE
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- MAIN
+
+
+main : Program Never
+main =
+    Html.App.program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
