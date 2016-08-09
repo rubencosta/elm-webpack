@@ -1,0 +1,23 @@
+{
+  "name": "elm-webpack",
+  "version": "1.0.0",
+  "description": "elm boylerplate with webpack",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf dist/",
+    "start": "webpack-dev-server --hot --env.dev --content-base dist/ --progress",
+    "prebuild": "npm run clean",
+    "build": "webpack --env.prod"
+  },
+  "author": "Ruben Costa",
+  "license": "MIT",
+  "devDependencies": {
+    "elm-hot-loader": "^0.3.3",
+    "elm-webpack-loader": "^3.0.3",
+    "html-webpack-plugin": "^2.22.0",
+    "rimraf": "^2.5.4",
+    "webpack": "^2.1.0-beta.20",
+    "webpack-dev-server": "^2.1.0-beta.0"
+  }
+}
