@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.App as App
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Mouse
+import Keyboard
 
 
 -- APP
@@ -29,7 +29,7 @@ type alias Model =
 
 model : Model
 model =
-    1
+    0
 
 
 init : ( Model, Cmd Action )
@@ -42,16 +42,17 @@ init =
 
 
 type Action
-    = Input String
-    | Save
+    = MouseAction Mouse.Position
+    | KeyboardAction Keyboard.KeyCode
 
 
 update : Action -> Model -> (Model, Cmd Action)
 update action model =
     case action of
-        _ ->
-            (model, Cmd.none)
-
+        MouseAction position ->
+            (model + 1, Cmd.none)
+        KeyboardAction code ->
+            (model + 1, Cmd.none)
 
 
 -- SUBSCRIPTIONS
@@ -59,7 +60,9 @@ update action model =
 
 subscriptions : Model -> Sub Action
 subscriptions model =
-    Sub.none
+    Sub.batch
+        [ Mouse.clicks MouseAction
+        , Keyboard.presses KeyboardAction ]
 
 
 
@@ -69,13 +72,5 @@ subscriptions model =
 view : Model -> Html Action
 view model =
     div []
-        [ Html.form
-            [ onSubmit Save ]
-            [ input
-                [ type' "text"
-                , onInput Input
-                ]
-                []
-            ]
-        , div [] [ text (toString model) ]
+        [ div [] [ text (toString model) ]
         ]
