@@ -1,9 +1,11 @@
 module Players.Messages exposing (..)
 
 import Http
-import Players.Models exposing (Player)
+import Players.Models exposing (Player, PlayerId)
 
 
 type Msg
     = FetchAllDone (List Player)
     | FetchAllFail Http.Error
+    | ShowPlayers
+    | ShowPlayer PlayerId
