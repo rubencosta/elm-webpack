@@ -1,6 +1,6 @@
 const resolve = require('path').resolve
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
+const Webpack = require('webpack')
 
 module.exports = env => {
     const addPlugin = (add, plugin) => (add ? plugin : undefined)
@@ -14,6 +14,7 @@ module.exports = env => {
         output: {
             path: resolve(__dirname, './dist'),
             pathinfo: !env.prod,
+            filename: 'bundle.js',
         },
         devtool: env.prod ? 'source-map' : 'cheap-module-eval-source-map',
         bail: env.prod,
@@ -53,32 +54,32 @@ module.exports = env => {
                 template: './index.tpl.html',
             }),
             ...removeEmpty([
-                ifDev(new webpack.LoaderOptionsPlugin({
+                ifDev(new Webpack.LoaderOptionsPlugin({
                     minimize: false,
                     debug: true,
                 })),
-                ifDev(new webpack.DefinePlugin({
+                ifDev(new Webpack.DefinePlugin({
                     __DEV__: true,
                     'process.env': {
                         NODE_ENV: '"development"',
                     },
                 })),
-                ifProd(new webpack.LoaderOptionsPlugin({
+                ifProd(new Webpack.LoaderOptionsPlugin({
                     minimize: true,
                     debug: false,
                 })),
-                ifProd(new webpack.DefinePlugin({
+                ifProd(new Webpack.DefinePlugin({
                     __DEV__: false,
                     'process.env': {
                         NODE_ENV: '"production"',
                     },
                 })),
-                ifProd(new webpack.optimize.UglifyJsPlugin({
+                ifProd(new Webpack.optimize.UglifyJsPlugin({
                     screw_ie8: true,
                     warnings: false,
                 })),
-                ifProd(new webpack.optimize.OccurrenceOrderPlugin()),
-                ifProd(new webpack.optimize.DedupePlugin()),
+                ifProd(new Webpack.optimize.OccurrenceOrderPlugin()),
+                ifProd(new Webpack.optimize.DedupePlugin()),
             ]),
         ]
     }
